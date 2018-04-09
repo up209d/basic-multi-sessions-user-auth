@@ -1,0 +1,1 @@
+A vanilla multiply sessions User Authentication with JWT
