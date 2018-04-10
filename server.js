@@ -87,7 +87,14 @@ app.post('/auth', function (req, res) {
 // Check for authentication
 app.use(
 	'/check',
-	// Pass through expressJwt middleware for doing jwt.verify with the token in req.headers.authorization
+	// IMPORTANT!!!
+	// jwt authentication plays the most important role in this flow, the other ones such as session store and database check
+	// is just to make it harder a bit to be verified after bypassing jw token, since session.id infomation is exposured to client cookies
+	// if someone got your session cookies and they got the not-yet-expired jwt, with faked ip same as yours, faked user-agent same as yours
+	// they can bypass this security solution (that's why many companies especially gov using double layers identity 
+	// such as SMS identity verification after user logged by name/password)
+	
+  // Pass through expressJwt middleware for doing jwt.verify with the token in req.headers.authorization
 	// also inject user with contain payload from jwt token to req
 	expressJwt({
 		secret: secret
